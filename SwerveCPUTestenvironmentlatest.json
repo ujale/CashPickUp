@@ -1,0 +1,34 @@
+{
+	"id": "8885e14f-3281-42db-bae2-582bbfdae611",
+	"name": "Swerve Cash Pickup Test",
+	"values": [
+		{
+			"key": "CPusertesttoken",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "tellerusertesttoken",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "testurl",
+			"value": "https://swerve-cashpickup-api.test.vggdev.com",
+			"enabled": true
+		},
+		{
+			"key": "tellerusertesttoken2",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "transactionReference",
+			"value": "",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2021-07-08T07:51:43.487Z",
+	"_postman_exported_using": "Postman/8.7.0"
+}

@@ -1,0 +1,2004 @@
+{
+	"info": {
+		"_postman_id": "6a76fafe-c141-45f2-9ac3-bdc8c9c6ac65",
+		"name": "Swerve Cash pickup (bank) Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login as Teller User",
+			"item": [
+				{
+					"name": "Login as CP User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;",
+									"",
+									"//Set access token as environment variable",
+									" var body = JSON.parse(responseBody);",
+									" pm.environment.set(\"CPusertesttoken\", body.accessToken);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userName\": \"jonesstewart@yopmail.com\",\n  \"password\": \"@Password11\"\n}"
+						},
+						"url": {
+							"raw": "https://swervepaytransaction.test.vggdev.com/api/Account/GetUserToken",
+							"protocol": "https",
+							"host": [
+								"swervepaytransaction",
+								"test",
+								"vggdev",
+								"com"
+							],
+							"path": [
+								"api",
+								"Account",
+								"GetUserToken"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userName\": \"<string>\",\n    \"password\": \"<string>\",\n    \"id\": \"<long>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Auth/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Login as Teller User(fbn)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"//Set access token as environment variable\r",
+									" var body = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"tellerusertesttoken\", body.access_token);\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.partnerName).to.eql(\"fbn\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"fbn\",\r\n  \"password\": \"P@ssw0rd1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/login",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as Teller User(zenith)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"//Set access token as environment variable\r",
+									" var body = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"tellerusertesttoken2\", body.access_token);\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.partnerName).to.eql(\"zenith\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"zenith\",\r\n  \"password\": \"@Password12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/login",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as Teller User (invalid username)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400\"] = responseCode.code === 400;\r",
+									"\r",
+									"pm.test(\"Login error\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Username or password is not correct\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"zenithe\",\r\n  \"password\": \"@Password12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/login",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as Teller User (invalid password)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400\"] = responseCode.code === 400;\r",
+									"\r",
+									"pm.test(\"Invalid login error\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"invalid_grant - \");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"zenith\",\r\n  \"password\": \"P@ssw0r\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/login",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as Teller User (no details)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400\"] = responseCode.code === 400;\r",
+									"pm.test(\"Error is returned\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"The Password field is required.\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"\",\r\n  \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/login",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post Transaction",
+			"item": [
+				{
+					"name": "Post transaction as CP user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.transactionStatusDescription).to.eql(\"Pending\");\r",
+									"});\r",
+									"let response = pm.response.json();\r",
+									"pm.environment.set(\"transactionReference\", response.transactionReference);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CPusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"partnerTransactionReference\": \"{{$guid}}\",\r\n\"baseCurrencyCode\": \"USD\",\r\n\"targetCurrencyCode\": \"USD\",\r\n\"baseCurrencyAmount\": 3.0,\r\n\"targetCurrencyAmount\": 3.0,\r\n\"partnerCode\": \"\",\r\n\"purpose\": \"Test Transactions\",\r\n\"accountNumber\": \"1015429954\",\r\n\"bankCode\": \"057\",\r\n\"baseCountryCode\": \"USA\",\r\n\"targetCountryCode\": \"NGA\",\r\n\"payerName\": \"test payer\",\r\n\"payermobile\": \"090000\",\r\n\"isCashPickUp\": true,\r\n\"senderAddress\": \"Wall Street, New York\",\r\n\"senderState\": \"New York\",\r\n\"senderFirstName\": \"Sally\",\r\n\"senderLastName\": \"Stark\",\r\n\"beneficiarymobile\":\"2348062610038\",\r\n\"beneficiaryFirstName\": \"Udeme\",\r\n\"beneficiaryLastName\": \"Jalekun\",\r\n\"beneficiaryAddress\": \"No. 10 Ahmadu Bello Way\",\r\n\"IdentityType\": \"BVN\",\r\n\"originalReference\": \"\",\r\n\"route\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://swervepaytransaction.test.vggdev.com/api/transactions/posttransactionlocal",
+							"protocol": "https",
+							"host": [
+								"swervepaytransaction",
+								"test",
+								"vggdev",
+								"com"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"posttransactionlocal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post transaction (no currency)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"currency is missing\", function () {\r",
+									"    pm.expect(body.message).to.eql(\"BaseCurrencyCode field is required\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CPusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"partnerTransactionReference\": \"{{$guid}}\",\r\n\"baseCurrencyCode\": \"\",\r\n\"targetCurrencyCode\": \"\",\r\n\"baseCurrencyAmount\": 1.0,\r\n\"targetCurrencyAmount\": 1.0,\r\n\"partnerCode\": \"\",\r\n\"purpose\": \"Test Transactions\",\r\n\"accountNumber\": \"0014109992\",\r\n\"bankCode\": \"057\",\r\n\"baseCountryCode\": \"USA\",\r\n\"targetCountryCode\": \"NGA\",\r\n\"payerName\": \"test payer\",\r\n\"payermobile\": \"090000\",\r\n\"isCashPickUp\": true,\r\n\"senderAddress\": \"Wall Street, New York\",\r\n\"senderState\": \"New York\",\r\n\"senderFirstName\": \"Sally\",\r\n\"senderLastName\": \"Stark\",\r\n\"beneficiarymobile\":\"2348062610038\",\r\n\"beneficiaryFirstName\": \"Udeme\",\r\n\"beneficiaryLastName\": \"Jalekun\",\r\n\"beneficiaryAddress\": \"No. 10 Ahmadu Bello Way\",\r\n\"IdentityType\": \"BVN\",\r\n\"originalReference\": \"\",\r\n\"route\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://swervepaytransaction.test.vggdev.com/api/transactions/posttransactionlocal",
+							"protocol": "https",
+							"host": [
+								"swervepaytransaction",
+								"test",
+								"vggdev",
+								"com"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"posttransactionlocal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post transaction (invalid currency)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"invalid currency\", function () {\r",
+									"    pm.expect(body.message).to.eql(\"Switch Time Out, Kindly retry\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CPusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"partnerTransactionReference\": \"{{$guid}}\",\r\n\"baseCurrencyCode\": \"DSU\",\r\n\"targetCurrencyCode\": \"SDU\",\r\n\"baseCurrencyAmount\": 1.0,\r\n\"targetCurrencyAmount\": 1.0,\r\n\"partnerCode\": \"\",\r\n\"purpose\": \"Test Transactions\",\r\n\"accountNumber\": \"0014109992\",\r\n\"bankCode\": \"057\",\r\n\"baseCountryCode\": \"USA\",\r\n\"targetCountryCode\": \"NGA\",\r\n\"payerName\": \"test payer\",\r\n\"payermobile\": \"090000\",\r\n\"isCashPickUp\": true,\r\n\"senderAddress\": \"Wall Street, New York\",\r\n\"senderState\": \"New York\",\r\n\"senderFirstName\": \"Sally\",\r\n\"senderLastName\": \"Stark\",\r\n\"beneficiarymobile\":\"2348062610038\",\r\n\"beneficiaryFirstName\": \"Udeme\",\r\n\"beneficiaryLastName\": \"Jalekun\",\r\n\"beneficiaryAddress\": \"No. 10 Ahmadu Bello Way\",\r\n\"IdentityType\": \"BVN\",\r\n\"originalReference\": \"\",\r\n\"route\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://swervepaytransaction.test.vggdev.com/api/transactions/posttransactionlocal",
+							"protocol": "https",
+							"host": [
+								"swervepaytransaction",
+								"test",
+								"vggdev",
+								"com"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"posttransactionlocal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post transaction (0 amount)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"base currency error\", function () {\r",
+									"    pm.expect(body.message).to.eql(\"BaseCurrencyAmount must be a decimal/number between 1 and 100000000.\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CPusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"partnerTransactionReference\": \"{{$guid}}\",\r\n\"baseCurrencyCode\": \"usd\",\r\n\"targetCurrencyCode\": \"usd\",\r\n\"baseCurrencyAmount\": 0.0,\r\n\"targetCurrencyAmount\": 1.0,\r\n\"partnerCode\": \"\",\r\n\"purpose\": \"Test Transactions\",\r\n\"accountNumber\": \"0014109992\",\r\n\"bankCode\": \"057\",\r\n\"baseCountryCode\": \"USA\",\r\n\"targetCountryCode\": \"NGA\",\r\n\"payerName\": \"test payer\",\r\n\"payermobile\": \"090000\",\r\n\"isCashPickUp\": true,\r\n\"senderAddress\": \"Wall Street, New York\",\r\n\"senderState\": \"New York\",\r\n\"senderFirstName\": \"Sally\",\r\n\"senderLastName\": \"Stark\",\r\n\"beneficiarymobile\":\"2348062610038\",\r\n\"beneficiaryFirstName\": \"Udeme\",\r\n\"beneficiaryLastName\": \"Jalekun\",\r\n\"beneficiaryAddress\": \"No. 10 Ahmadu Bello Way\",\r\n\"IdentityType\": \"BVN\",\r\n\"originalReference\": \"\",\r\n\"route\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://swervepaytransaction.test.vggdev.com/api/transactions/posttransactionlocal",
+							"protocol": "https",
+							"host": [
+								"swervepaytransaction",
+								"test",
+								"vggdev",
+								"com"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"posttransactionlocal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post transaction (non existing partnercode)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"partnercode error\", function () {\r",
+									"    pm.expect(body.message).to.eql(\"partnerCode does not exist\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CPusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"partnerTransactionReference\": \"{{$guid}}\",\r\n\"baseCurrencyCode\": \"USD\",\r\n\"targetCurrencyCode\": \"USD\",\r\n\"baseCurrencyAmount\": 3.0,\r\n\"targetCurrencyAmount\": 3.0,\r\n\"partnerCode\": \"0005@\",\r\n\"purpose\": \"Test Transactions\",\r\n\"accountNumber\": \"0014109992\",\r\n\"bankCode\": \"057\",\r\n\"baseCountryCode\": \"USA\",\r\n\"targetCountryCode\": \"NGA\",\r\n\"payerName\": \"test payer\",\r\n\"payermobile\": \"090000\",\r\n\"isCashPickUp\": true,\r\n\"senderAddress\": \"Wall Street, New York\",\r\n\"senderState\": \"New York\",\r\n\"senderFirstName\": \"Sally\",\r\n\"senderLastName\": \"Stark\",\r\n\"beneficiarymobile\":\"2348182367005\",\r\n\"beneficiaryFirstName\": \"Abdulateef\",\r\n\"beneficiaryLastName\": \"Lawal\",\r\n\"beneficiaryAddress\": \"No. 10 Ahmadu Bello Way\",\r\n\"IdentityType\": \"BVN\",\r\n\"originalReference\": \"\",\r\n\"route\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://swervepaytransaction.test.vggdev.com/api/transactions/posttransactionlocal",
+							"protocol": "https",
+							"host": [
+								"swervepaytransaction",
+								"test",
+								"vggdev",
+								"com"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"posttransactionlocal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post transaction as a teller user(unauthorised user)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"user login failed\", function () {\r",
+									"    pm.expect(body.result.transactionStatusDescription).to.eql(\"Failed\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"partnerTransactionReference\": \"{{$guid}}\",\r\n\"baseCurrencyCode\": \"USD\",\r\n\"targetCurrencyCode\": \"USD\",\r\n\"baseCurrencyAmount\": 1.0,\r\n\"targetCurrencyAmount\": 1.0,\r\n\"partnerCode\": \"\",\r\n\"purpose\": \"Test Transactions\",\r\n\"accountNumber\": \"0014109992\",\r\n\"bankCode\": \"057\",\r\n\"baseCountryCode\": \"USA\",\r\n\"targetCountryCode\": \"NGA\",\r\n\"payerName\": \"test payer\",\r\n\"payermobile\": \"090000\",\r\n\"isCashPickUp\": true,\r\n\"senderAddress\": \"Wall Street, New York\",\r\n\"senderState\": \"New York\",\r\n\"senderFirstName\": \"Sally\",\r\n\"senderLastName\": \"Stark\",\r\n\"beneficiarymobile\":\"2348062610038\",\r\n\"beneficiaryFirstName\": \"Udeme\",\r\n\"beneficiaryLastName\": \"Jalekun\",\r\n\"beneficiaryAddress\": \"No. 10 Ahmadu Bello Way\",\r\n\"IdentityType\": \"BVN\",\r\n\"originalReference\": \"\",\r\n\"route\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://swervepaytransaction.test.vggdev.com/api/transactions/posttransactionlocal",
+							"protocol": "https",
+							"host": [
+								"swervepaytransaction",
+								"test",
+								"vggdev",
+								"com"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"posttransactionlocal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post transaction (no partner ref)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"partner ref is required\", function () {\r",
+									"    pm.expect(body.message).to.eql(\"PartnerTransactionReference field is required\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CPusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"partnerTransactionReference\": \"\",\r\n\"baseCurrencyCode\": \"USD\",\r\n\"targetCurrencyCode\": \"USD\",\r\n\"baseCurrencyAmount\": 1.0,\r\n\"targetCurrencyAmount\": 1.0,\r\n\"partnerCode\": \"\",\r\n\"purpose\": \"Test Transactions\",\r\n\"accountNumber\": \"0014109992\",\r\n\"bankCode\": \"057\",\r\n\"baseCountryCode\": \"USA\",\r\n\"targetCountryCode\": \"NGA\",\r\n\"payerName\": \"test payer\",\r\n\"payermobile\": \"090000\",\r\n\"isCashPickUp\": true,\r\n\"senderAddress\": \"Wall Street, New York\",\r\n\"senderState\": \"New York\",\r\n\"senderFirstName\": \"Sally\",\r\n\"senderLastName\": \"Stark\",\r\n\"beneficiarymobile\":\"2348062610038\",\r\n\"beneficiaryFirstName\": \"Udeme\",\r\n\"beneficiaryLastName\": \"Jalekun\",\r\n\"beneficiaryAddress\": \"No. 10 Ahmadu Bello Way\",\r\n\"IdentityType\": \"BVN\",\r\n\"originalReference\": \"\",\r\n\"route\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://swervepaytransaction.test.vggdev.com/api/transactions/posttransactionlocal",
+							"protocol": "https",
+							"host": [
+								"swervepaytransaction",
+								"test",
+								"vggdev",
+								"com"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"posttransactionlocal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Validate transaction",
+			"item": [
+				{
+					"name": "Validate transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Successful\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"{{transactionReference}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/validate",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate transaction Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Successful\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"{{transactionReference}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/validate",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate transaction (non cash pickup)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400\"] = responseCode.code === 400;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"invalid request. Transaction does not support cash pick up\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"SWVPLYNS4Q0GK0ST3OYOWXANW\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/validate",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate transaction by phone number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Successful\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"beneficiaryPhoneNumber\": \"2348062610038\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/validate/phonenumber",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"validate",
+								"phonenumber"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate transaction (incorrect paymentRef)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Invalid Payment Ref\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"SVMWWBIJTP0A\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/validate",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate transaction (failed transaction)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Invalid Payment Ref\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"SWVJYO0G77S0KIDHPZXGN2YZQ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/validate",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate transaction (already validated)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody); \r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Invalid Payment Ref\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"swv3248759\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/validate",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate transaction (no paymentRef)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400\"] = responseCode.code === 400;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Payment reference is required\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/validate",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment-Processing",
+			"item": [
+				{
+					"name": "Push payment to processing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Successful\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"{{transactionReference}}\",\r\n  \"bankRef\": \"{{$randomHexColor}}\",\r\n  \"otp\": \"12354\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/payment-processing",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"payment-processing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Push payment to processing (unvalidated paymentRef)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400\"] = responseCode.code === 400;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Invalid request.\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"SWVHGP40V81AEAHZUOO4O4ZMG\",\r\n  \"bankRef\": \"olytc\",\r\n  \"otp\": \"09118\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/payment-processing",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"payment-processing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Push payment to processing (no paymentRef)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400\"] = responseCode.code === 400;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.PaymentRef).to.eql([ \"Payment ref is required\" ]);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"\",\r\n  \"bankRef\": \"polyrexc\",\r\n  \"otp\": \"26978\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/payment-processing",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"payment-processing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Push payment to processing (already successful)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400\"] = responseCode.code === 400;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Invalid request.\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"SWVWH8KM2YVXEIWMRQG1UTUVW\",\r\n  \"bankRef\": \"poyrex1\",\r\n  \"otp\": \"2278\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/payment-processing",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"payment-processing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Push payment to processing (no otp)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400\"] = responseCode.code === 400;\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"SWVWH8KM2YVXEIWMRQG1UTUVW\",\r\n  \"bankRef\": \"polyrexc\",\r\n  \"otp\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/payment-processing",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"payment-processing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Push payment to processing (no bankRef)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400\"] = responseCode.code === 400;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.BankRef).to.eql([ \"Bank ref is required\" ]);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"SWVMWWRGKPA2KECJWXBIJTP0A\",\r\n  \"bankRef\": \"\",\r\n  \"otp\": \"26978\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/payment-processing",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"payment-processing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Push payment to processing (as another bank teller)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400\"] = responseCode.code === 400;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Invalid request.\");\r",
+									"});\r",
+									" \r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentRef\": \"{{transactionReference}}\",\r\n  \"bankRef\": \"yahoo\",\r\n  \"otp\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{testurl}}/api/payment-processing",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"payment-processing"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Query Transaction",
+			"item": [
+				{
+					"name": "Query Transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Successful\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{testurl}}/api/queryendpoint?BankRef=Integrated next generation solution",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"queryendpoint"
+							],
+							"query": [
+								{
+									"key": "BankRef",
+									"value": "Integrated next generation solution"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Transaction (non existing bank ref)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Invalid Payment Ref\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{testurl}}/api/queryendpoint?BankRef=exc",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"queryendpoint"
+							],
+							"query": [
+								{
+									"key": "BankRef",
+									"value": "exc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Transaction (no bank ref)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400\"] = responseCode.code === 400;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Bank ref is required\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{testurl}}/api/queryendpoint?BankRef=",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"queryendpoint"
+							],
+							"query": [
+								{
+									"key": "BankRef",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Transaction (as a different bank teller)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400 or 200\"] = responseCode.code === 400|| 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Invalid Payment Ref\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{testurl}}/api/queryendpoint?BankRef=%23515643",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"queryendpoint"
+							],
+							"query": [
+								{
+									"key": "BankRef",
+									"value": "%23515643"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Transaction (for ussd route transaction)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests [\"Status Code is 400 or 200\"] = responseCode.code === 400|| 200;\r",
+									"\r",
+									"var body = JSON.parse(responseBody);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(body.responseDesc).to.eql(\"Invalid Payment Ref\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{testurl}}/api/queryendpoint?BankRef=SWVH7Q4SXUBLES21EUNDAK0YW",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"queryendpoint"
+							],
+							"query": [
+								{
+									"key": "BankRef",
+									"value": "SWVH7Q4SXUBLES21EUNDAK0YW"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Swerve-OTP Copy",
+			"item": [
+				{
+					"name": "Verify otp",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{telleruserstagtoken2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"otp\": \"656156\",\r\n  \"reference\": \"swv36764\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://swerve-otp.test.vggdev.com/api/Otp/verify",
+							"protocol": "https",
+							"host": [
+								"swerve-otp",
+								"test",
+								"vggdev",
+								"com"
+							],
+							"path": [
+								"api",
+								"Otp",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Re-send Token Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tellerusertesttoken2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{testurl}}/api/resendotp?transactionRef=swv3248771",
+							"host": [
+								"{{testurl}}"
+							],
+							"path": [
+								"api",
+								"resendotp"
+							],
+							"query": [
+								{
+									"key": "transactionRef",
+									"value": "swv3248771"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
